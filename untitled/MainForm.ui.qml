@@ -15,6 +15,7 @@ Rectangle {
         anchors.leftMargin: 0
         anchors.topMargin: 0
         anchors.fill: parent
+        objectName: "table"
 
         Button {
             id: start
@@ -44,12 +45,13 @@ Rectangle {
 
         TableView {
             id: tableView
-            selectionMode: 1
+            horizontalScrollBarPolicy: 1
+            selectionMode: 0
             highlightOnFocus: false
             frameVisible: true
             headerVisible: true
             sortIndicatorColumn: 1
-            verticalScrollBarPolicy: 1
+            verticalScrollBarPolicy: 0
             sortIndicatorOrder: 1
             sortIndicatorVisible: true
             anchors.bottom: stop.top

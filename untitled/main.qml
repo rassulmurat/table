@@ -9,6 +9,7 @@ Window {
 
     MainForm {
         anchors.fill: parent
+        tableView.model: tableModel
         mouseArea.onClicked: {
             console.log(qsTr('Clicked on background. Text: "' + textEdit.text + '"'))
         }

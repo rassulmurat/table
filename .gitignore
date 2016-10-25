@@ -8,3 +8,9 @@ build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Release/Makefile
 build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Release/qrc_qml.cpp
 build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Release/qrc_qml.o
 build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Release/untitled
+build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Release/moc_tablemodel.cpp
+build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Release/moc_tablemodel.o
+build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Release/tablemodel.o
+build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Debug/moc_tablemodel.cpp
+build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Debug/moc_tablemodel.o
+build-untitled-Desktop_Qt_5_7_0_GCC_64bit-Debug/tablemodel.o

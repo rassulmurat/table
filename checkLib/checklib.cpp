@@ -7,6 +7,6 @@ CheckLib::CheckLib()
 
 int CheckLib::check(QList<QString> *list)
 {
-    list->insert( 3, "OK");
+    list->replace( 3, "OK");
     return 0;
 }

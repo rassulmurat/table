@@ -71,5 +71,20 @@ int TableInteraction::writeTblIo()
 
 void TableInteraction::appendSlot(QString name, QString ipaddr)
 {
-    qDebug()<<name<<" and "<<ipaddr;
+    int size = tableList.size();
+    QList<QString> list;
+    list.append("true");
+    list.append(name);
+    list.append(ipaddr);
+    list.append("New");
+    tableList.append(list);
+    writeTblIo();
+    appendRow("true", size + 1, name, ipaddr, "New");
+}
+
+void TableInteraction::editSlot(QString id, QString name, QString ipaddr)
+{
+    int realid = id.toInt() - 1;
+    QList<QString> list = tableList[realid];
+    editRow(list[0], realid, name, ipaddr, list[3]);
 }

@@ -11,12 +11,11 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    QQmlComponent component(&engine, QUrl("qrc:/main.qml"));
-    QObject *obj = component.create();
     QObject *root = engine.rootObjects().value(0);
-    QObject *mdlObj = root->findChild<QObject*>("model1");
-    TableInteraction *inter = new TableInteraction(obj);
-    QObject::connect(mdlObj, SIGNAL(appendSign(QString, QString)), inter, SLOT(appendSlot(QString,QString)));
+    TableInteraction *inter = new TableInteraction(root);
+    QObject::connect(root, SIGNAL(appendSign(QString, QString)), inter, SLOT(appendSlot(QString, QString)));
+    QObject::connect(root, SIGNAL(editSign(QString, QString, QString)), inter, SLOT(editSlot(QString, QString, QString)));
     return app.exec();
 }

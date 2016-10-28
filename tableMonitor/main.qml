@@ -9,16 +9,101 @@ ApplicationWindow {
     title: qsTr("Table")
     id: root
 
-    MainForm {
-        mouseArea.onClicked: {
-            dropMenu.popup()
-        }
-        tableView.model: tableModel
-        anchors.fill: parent
+    signal editSign(string id, string name, string ipaddr)
+    signal appendSign(string name, string ipaddr)
 
-        objectName: model1
-        signal editSign(string name, string ipaddr)
-        signal appendSign(string name, string ipaddr)
+    property alias mouseArea: mouseArea
+
+    MainForm {
+//        mouseArea.onClicked: {
+//            dropMenu.popup()
+//        }
+//        tableView.model: tableModel
+        anchors.fill: parent
+    }
+
+    Button {
+        id: stop
+        x: 356
+        y: 428
+        width: 134
+        height: 44
+        text: qsTr("Stop")
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+        anchors.right: start.left
+        anchors.rightMargin: 10
+    }
+
+    Button {
+        id: start
+        x: 500
+        y: 428
+        width: 134
+        height: 44
+        text: qsTr("Start")
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 5
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.right: parent.right
+        anchors.rightMargin: 5
+        anchors.left: parent.left
+        anchors.leftMargin: 5
+        anchors.bottom: stop.top
+        anchors.bottomMargin: 5
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        acceptedButtons: Qt.RightButton
+        onClicked: dropMenu.popup()
+
+        TableView {
+            id: tableView
+            anchors.fill: parent
+            opacity: 1
+            clip: false
+            selectionMode: 1
+            horizontalScrollBarPolicy: 1
+            highlightOnFocus: true
+            frameVisible: true
+            headerVisible: true
+            sortIndicatorColumn: 1
+            verticalScrollBarPolicy: 0
+            sortIndicatorOrder: 1
+            sortIndicatorVisible: true
+            model: tableModel
+
+            TableViewColumn {
+                title: ""
+                role: "check"
+                width: 20
+                delegate: CheckBox {
+                    checked: true
+                }
+            }
+            TableViewColumn {
+                title: "ID"
+                role: "idcol"
+                width: 120
+            }
+            TableViewColumn {
+                title: "Name"
+                role: "name"
+                width: 168
+            }
+            TableViewColumn {
+                title: "IP Address"
+                role: "ip"
+            }
+            TableViewColumn {
+                title: "Status"
+                role: "status"
+            }
+        }
     }
 
     function appendRow(val) {
@@ -51,6 +136,7 @@ ApplicationWindow {
         id: dropMenu
         MenuItem{
                text: "Edit"
+               onTriggered: editRow()
         }
         MenuItem{
                text: "Delete"
@@ -144,8 +230,15 @@ ApplicationWindow {
             onClicked: {
                 if (creating) {
                     appendSign(nametf.text, ipaddrtf.text)
+                    nametf.text = ""
+                    ipaddrtf.text = ""
+                    editWindow.visible = false
                 } else {
-                    editSign(nametf.text, ipaddrtf.text)
+                    var tmp = tableModel.get(tableView.currentRow).idcol
+                    editSign(tmp, nametf.text, ipaddrtf.text)
+                    nametf.text = ""
+                    ipaddrtf.text = ""
+                    editWindow.visible = false
                 }
             }
         }

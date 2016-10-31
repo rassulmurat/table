@@ -88,3 +88,22 @@ void TableInteraction::editSlot(QString id, QString name, QString ipaddr)
     QList<QString> list = tableList[realid];
     editRow(list[0], realid, name, ipaddr, list[3]);
 }
+
+int TableInteraction::getRow(QList<QString> *list, int pos)
+{
+    if (pos > tableList.size() - 1)
+        return 1;
+    *list = tableList[pos];
+    return 0;
+}
+
+int TableInteraction::size()
+{
+    return tableList.size();
+}
+
+QObject *TableInteraction::getObj()
+{
+    return object;
+}
+

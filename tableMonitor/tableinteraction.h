@@ -18,7 +18,11 @@ public:
     int populate();
     int readTblIo();
     int writeTblIo();
-    int writeRow(QList<QString> list);
+    int getRow(QList<QString> *list, int pos);
+    QObject *getObj();
+    int size();
+
+
 
 private:
     QObject *object;

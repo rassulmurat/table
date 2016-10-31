@@ -2,7 +2,5 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
-        <file>Tmp.qml</file>
-        <file>TmpForm.ui.qml</file>
     </qresource>
 </RCC>

@@ -5,7 +5,8 @@ QT += qml quick widgets
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    tableinteraction.cpp
+    tableinteraction.cpp \
+    checker.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,4 +19,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    tableinteraction.h
+    tableinteraction.h \
+    checker.h
+
+
+unix:!macx: LIBS += -L$$PWD/../build-checkLib-Desktop_Qt_5_7_0_GCC_64bit-Release/ -lcheckLib
+
+INCLUDEPATH += $$PWD/../checkLib
+DEPENDPATH += $$PWD/../checkLib

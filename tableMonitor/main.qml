@@ -11,14 +11,14 @@ ApplicationWindow {
 
     signal editSign(string id, string name, string ipaddr)
     signal appendSign(string name, string ipaddr)
+    signal startSign()
+    signal stopSign()
+    signal pouseSign()
+    signal checkSign(string id, string bool)
 
     property alias mouseArea: mouseArea
 
     MainForm {
-//        mouseArea.onClicked: {
-//            dropMenu.popup()
-//        }
-//        tableView.model: tableModel
         anchors.fill: parent
     }
 
@@ -33,6 +33,7 @@ ApplicationWindow {
         anchors.bottomMargin: 5
         anchors.right: start.left
         anchors.rightMargin: 10
+        onClicked: stopSign()
     }
 
     Button {
@@ -46,6 +47,7 @@ ApplicationWindow {
         anchors.bottomMargin: 5
         anchors.right: parent.right
         anchors.rightMargin: 5
+        onClicked: startSign()
     }
 
     MouseArea {
@@ -82,7 +84,8 @@ ApplicationWindow {
                 role: "check"
                 width: 20
                 delegate: CheckBox {
-                    checked: true
+                    checked: tableModel.get(styleData.row).check.checked
+                    onClicked: checkBoxClicked(styleData.row)
                 }
             }
             TableViewColumn {
@@ -106,34 +109,77 @@ ApplicationWindow {
         }
     }
 
+    function checkBoxClicked(val) {
+        tableModel.get(val).check = {checked: !tableModel.get(val).check.checked}
+        checkSign(val, tableModel.get(val).check.checked)
+    }
+
+    function checkedAdd(val) {
+       progressBar.value = val
+    }
+
     function appendRow(val) {
-        tableModel.append({idcol: val[1], name: val[2], ip: val[3], status: val[4]})
-        return
+        var tmp
+        if (val[0] == "true") {
+            tmp = true
+        } else {
+            tmp = false
+        }
+        tableModel.append({check: {checked: tmp}, idcol: val[1], name: val[2], ip: val[3], status: val[4]})
     }
 
     function modifyRow(val) {
-        tableModel.set(val[1], {name: val[2], ip: val[3], status: val[4]})
+        tableModel.set(val[1], {check: {checked: val[0]}, name: val[2], ip: val[3], status: val[4]})
         return
     }
 
     property bool creating: true
 
-    function addRow() {
-        creating = true
-        editWindow.visible = true
-    }
-
-    function editRow() {
-        creating = false
-        editWindow.visible = true
-    }
-
     ListModel {
         id: tableModel
     }
 
+    Button {
+        id: pouse
+        width: 134
+        text: qsTr("Pouse")
+        anchors.top: mouseArea.bottom
+        anchors.topMargin: 5
+        anchors.right: stop.left
+        anchors.rightMargin: 10
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+        onClicked: pouseSign();
+    }
+
+    Rectangle {
+        id: counterRect
+        color: "#00000000"
+        border.color: "#00000000"
+        anchors.top: mouseArea.bottom
+        anchors.topMargin: 5
+        anchors.left: parent.left
+        anchors.leftMargin: 5
+        anchors.right: pouse.left
+        anchors.rightMargin: 10
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+
+        ProgressBar {
+            id: progressBar
+            anchors.fill: parent
+        }
+    }
+
+    /*
+      * Drop menu(Right click)
+      */
     Menu {
         id: dropMenu
+        MenuItem{
+               text: "Add"
+               onTriggered: addRow()
+        }
         MenuItem{
                text: "Edit"
                onTriggered: editRow()
@@ -141,10 +187,16 @@ ApplicationWindow {
         MenuItem{
                text: "Delete"
         }
-        MenuItem{
-               text: "Add"
-               onTriggered: addRow()
-        }
+    }
+//Function for right click menu
+    function addRow() {
+        creating = true
+        editWindow.visible = true
+    }
+//Function for tight click menu
+    function editRow() {
+        creating = false
+        editWindow.visible = true
     }
 
     Window {
@@ -243,4 +295,6 @@ ApplicationWindow {
             }
         }
     }
+
+
 }

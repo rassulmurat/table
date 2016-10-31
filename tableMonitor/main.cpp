@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     QObject::connect(root, SIGNAL(startSign()), checker, SLOT(start()));
     QObject::connect(root, SIGNAL(stopSign()), checker, SLOT(stop()));
     QObject::connect(root, SIGNAL(pouseSign()), checker, SLOT(pouse()));
-    QObject::connect(root, SIGNAL(checkSign(QString, QString)), inter, SLOT(checkStatus(QString,QString)));
+    QObject::connect(root, SIGNAL(checkSign(QString, QString)), checker, SLOT(checkStatus(QString,QString)));
 
     return app.exec();
 }

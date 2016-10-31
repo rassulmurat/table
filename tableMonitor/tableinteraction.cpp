@@ -97,6 +97,14 @@ int TableInteraction::getRow(QList<QString> *list, int pos)
     return 0;
 }
 
+int TableInteraction::setRow(QList<QString> list, int pos)
+{
+    if (pos > tableList.size() - 1)
+        return 1;
+    tableList[pos] = list;
+    return 0;
+}
+
 int TableInteraction::size()
 {
     return tableList.size();

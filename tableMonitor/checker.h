@@ -18,6 +18,7 @@ private:
     //Last checked row
     int last = 0;
     TableInteraction *tInter;
+    //List of ID's to check.
     QList<int> toCount;
 
 public slots:
@@ -25,7 +26,7 @@ public slots:
     int start();
     int stop();
     int pouse();
-    int TableInteraction::checkStatus(QString id, QString str);
+    int checkStatus(QString id, QString str);
 };
 
 #endif // CHECKER_H

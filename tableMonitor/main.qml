@@ -11,6 +11,7 @@ ApplicationWindow {
 
     signal editSign(string id, string name, string ipaddr)
     signal appendSign(string name, string ipaddr)
+    signal removeSign(string id)
     signal startSign()
     signal stopSign()
     signal pouseSign()
@@ -133,6 +134,11 @@ ApplicationWindow {
         return
     }
 
+    function removeRow() {
+        tableModel.remove(tableView.currentRow)
+        removeSign(tableView.currentRow)
+    }
+
     property bool creating: true
 
     ListModel {
@@ -186,6 +192,7 @@ ApplicationWindow {
         }
         MenuItem{
                text: "Delete"
+               onTriggered: removeRow()
         }
     }
 //Function for right click menu

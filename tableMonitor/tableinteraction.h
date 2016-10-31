@@ -15,7 +15,6 @@ public:
     TableInteraction(QObject *obj);
     int appendRow(QString check, int id, QString name, QString ip, QString status);
     int editRow(QString check, int id, QString name, QString ip, QString status);
-    int populate();
     int readTblIo();
     int writeTblIo();
     int getRow(QList<QString> *list, int pos);
@@ -23,16 +22,16 @@ public:
     QObject *getObj();
     int size();
 
-
-
 private:
     QObject *object;
     QList<QList<QString>> tableList;
     const QString filePath = "table.bin";
+    int populate();
 
 public slots:
     void appendSlot(QString name, QString ipaddr);
     void editSlot(QString id, QString name, QString ipaddr);
+    void removeRow(QString id);
 };
 
 #endif // TABLEINTERACTION_H

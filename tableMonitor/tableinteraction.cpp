@@ -31,6 +31,11 @@ int TableInteraction::editRow(QString check, int id, QString name, QString ip, Q
     return 0;
 }
 
+ void TableInteraction::removeRow(QString id)
+ {
+    tableList.removeAt(id.toInt());
+ }
+
 /*
  *Populates table from tableList
 */

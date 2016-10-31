@@ -19,8 +19,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    tableinteraction.h \
-    checker.h
+    checker.h\
+    tableinteraction.h
 
 
 unix:!macx: LIBS += -L$$PWD/../build-checkLib-Desktop_Qt_5_7_0_GCC_64bit-Release/ -lcheckLib

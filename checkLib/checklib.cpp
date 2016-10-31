@@ -5,35 +5,64 @@ CheckLib::CheckLib()
 {
 }
 
-int CheckLib::check(QList<QString> *list)
+int CheckLib::check(QList<QString> list)
 {
-    QString tmp = list->value(2);
-    QString command = "iperf -c ";
-    command.append(tmp);
+    QString command = list.value(2);
     QString str = exec(command);
-    qDebug()<<str;
+    tableRow = list;
+    return 0;
+}
+
+int CheckLib::findValues(QString str, QString *ret)
+{
+    QTextStream txtStrm(&str);
+    QString txt;
+    int line = 0;
+    while(!txtStrm.atEnd()) {
+        if(line == 6) {
+            txt = txtStrm.readLine();
+            break;
+        }
+        txtStrm.readLine();
+        line++;
+    }
+    if (line != 6)
+        return 1;
+    QStringList list = txt.split(QRegExp(" "));
+    *ret = list[10];
+    ret->append(QString(" "));
+    ret->append(list[11]);
     return 0;
 }
 
 
 QString CheckLib::exec(QString cmd)
 {
-    char buffer[128];
-    QString result = "";
-    QByteArray barr = cmd.toLatin1();
-    const char *command = barr.data();
-    FILE* pipe = popen(command, "r");
-    if (!pipe) throw std::runtime_error("popen() failed!");
-    try {
-        while (!feof(pipe)) {
-            if (fgets(buffer, 128, pipe) != NULL)
-                result.append(buffer);
-                qDebug()<<buffer;
-        }
-    } catch (...) {
-        pclose(pipe);
-        throw;
+    QString programm = QString("iperf");
+    QStringList arguments;
+    arguments<<"-c";
+    arguments<<cmd;
+    proc = new QProcess();
+
+    QObject::connect(proc, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(finished(int,QProcess::ExitStatus)));
+
+    proc->start(programm, arguments);
+
+    return QString("");
+}
+
+void CheckLib::finished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    QString str;
+
+    QByteArray buf = proc->readAllStandardOutput();
+    QString tmp(buf);
+
+    if (findValues(tmp, &str) == 1) {
+        tableRow.replace(3, "fail");
+    } else {
+        tableRow.replace(3, str);
     }
-    pclose(pipe);
-    return result;
+
+    emit processFinished(tableRow);
 }

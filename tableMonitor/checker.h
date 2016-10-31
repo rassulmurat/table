@@ -14,12 +14,12 @@ public:
     int populateToCount();
 
 private:
-    QTimer *timer;
     //Last checked row
     int last = 0;
     TableInteraction *tInter;
     //List of ID's to check.
     QList<int> toCount;
+    CheckLib *checkLib;
 
 public slots:
     int checkOne();
@@ -27,6 +27,7 @@ public slots:
     int stop();
     int pouse();
     int checkStatus(QString id, QString str);
+    void processFinished(QList<QString> list);
 };
 
 #endif // CHECKER_H

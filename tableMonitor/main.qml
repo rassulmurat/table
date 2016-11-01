@@ -19,10 +19,6 @@ ApplicationWindow {
 
     property alias mouseArea: mouseArea
 
-    MainForm {
-        anchors.fill: parent
-    }
-
     Button {
         id: stop
         x: 356

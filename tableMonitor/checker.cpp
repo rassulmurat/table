@@ -11,7 +11,7 @@ Checker::Checker(TableInteraction *inter):QObject()
 int Checker::checkOne()
 {
     if (last == toCount.size()) {
-        stop();
+        finish();
         return 0;
     }
     QList<QString> list;
@@ -52,8 +52,20 @@ int Checker::populateToCount()
         tInter->getRow(&list, i);
         if (list[0] == "true") {
             toCount.append(i);
+            tInter->editStatus(i, QString("Not Tested"));
         }
     }
+    return 0;
+}
+
+int Checker::finish()
+{
+    last = 0;
+    tInter->writeTblIo();
+    while (toCount.size() > 0) {
+        toCount.removeAt(0);
+    }
+    QMetaObject::invokeMethod(tInter->getObj(), "finished");
     return 0;
 }
 

@@ -41,6 +41,7 @@ ApplicationWindow {
     function stopClicked() {
         stop.enabled = false
         start.enabled = true
+        progressBarText.text = "Stoped"
         stopSign()
     }
 
@@ -61,6 +62,7 @@ ApplicationWindow {
     function startClicked() {
         stop.enabled = true
         start.enabled = false
+        progressBarText.text = "Testing"
         startSign()
     }
 
@@ -178,7 +180,26 @@ ApplicationWindow {
         ProgressBar {
             id: progressBar
             anchors.fill: parent
+
+            Text {
+                id: progressBarText
+                color: "#2a2674"
+                text: qsTr("Not Running")
+                font.italic: true
+                opacity: 0.6
+                textFormat: Text.AutoText
+                wrapMode: Text.NoWrap
+                font.family: "Courier"
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                anchors.fill: parent
+                font.pixelSize: 34
+            }
         }
+    }
+
+    function finished() {
+        progressBarText.text = "Finished";
     }
 
     /*

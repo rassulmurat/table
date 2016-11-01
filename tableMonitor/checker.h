@@ -21,6 +21,7 @@ private:
     QList<int> toCount;
     CheckLib *checkLib;
     bool isWorking;
+    int finish();
 
 public slots:
     int checkOne();

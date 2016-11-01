@@ -53,6 +53,8 @@ QString CheckLib::exec(QString cmd)
 
 void CheckLib::finished(int exitCode, QProcess::ExitStatus exitStatus)
 {
+//    Q_UNUSED(exitCode);
+    Q_UNUSED(exitStatus);
     QString str;
 
     QByteArray buf = proc->readAllStandardOutput();
@@ -64,5 +66,11 @@ void CheckLib::finished(int exitCode, QProcess::ExitStatus exitStatus)
         tableRow.replace(3, str);
     }
 
-    emit processFinished(tableRow);
+    emit processFinished(tableRow, exitCode);
+}
+
+int CheckLib::killProcess()
+{
+    proc->kill();
+    return 0;
 }

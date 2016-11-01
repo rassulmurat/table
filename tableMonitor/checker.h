@@ -28,7 +28,7 @@ public slots:
     int stop();
     int pouse();
     int checkStatus(QString id, QString str);
-    void processFinished(QList<QString> list);
+    void processFinished(QList<QString> list, int exitCode);
 };
 
 #endif // CHECKER_H

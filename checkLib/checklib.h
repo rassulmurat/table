@@ -17,6 +17,7 @@ class CHECKLIBSHARED_EXPORT CheckLib: public QObject
 public:
     CheckLib();
     int check(QList<QString> list);
+    int killProcess();
 
 private:
     QString exec(QString);
@@ -28,7 +29,7 @@ public slots:
     void finished(int exitCode, QProcess::ExitStatus exitStatus);
 
 signals:
-    void processFinished(QList<QString> list);
+    void processFinished(QList<QString> list, int exitCode);
 
 };
 

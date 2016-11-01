@@ -15,9 +15,9 @@ int Checker::checkOne()
         return 0;
     }
     QList<QString> list;
+    tInter->getRow(&list, toCount[last]);
     tInter->editStatus(toCount[last], "Testing");
     checkLib->check(list);
-
     return 0;
 }
 
@@ -63,7 +63,6 @@ int Checker::stop()
     for (int i = 0; i < sz; ++i) {
         toCount.removeAt(0);
     }
-//    QMetaObject::invokeMethod(tInter->getObj(), "checkedAdd", Q_ARG(QVariant, 0));
     isWorking = false;
     return 0;
 }

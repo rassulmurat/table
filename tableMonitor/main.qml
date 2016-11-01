@@ -130,6 +130,10 @@ ApplicationWindow {
 
     function checkedAdd(val) {
        progressBar.value = val
+        if (1 == progressBar.value) {
+            stop.enabled = false
+            start.enabled = true
+        }
     }
 
     function appendRow(val) {

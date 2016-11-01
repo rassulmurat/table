@@ -34,7 +34,14 @@ ApplicationWindow {
         anchors.bottomMargin: 5
         anchors.right: start.left
         anchors.rightMargin: 10
-        onClicked: stopSign()
+        onClicked: stopClicked()
+        enabled: false
+    }
+
+    function stopClicked() {
+        stop.enabled = false
+        start.enabled = true
+        stopSign()
     }
 
     Button {
@@ -48,7 +55,13 @@ ApplicationWindow {
         anchors.bottomMargin: 5
         anchors.right: parent.right
         anchors.rightMargin: 5
-        onClicked: startSign()
+        onClicked: startClicked()
+    }
+
+    function startClicked() {
+        stop.enabled = true
+        start.enabled = false
+        startSign()
     }
 
     MouseArea {

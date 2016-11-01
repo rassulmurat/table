@@ -3,6 +3,7 @@
 Checker::Checker(TableInteraction *inter):QObject()
 {
     tInter = inter;
+    isWorking = false;
     checkLib = new CheckLib();
     QObject::connect(checkLib, SIGNAL(processFinished(QList<QString>)), this, SLOT(processFinished(QList<QString>)));
 }
@@ -14,8 +15,7 @@ int Checker::checkOne()
         return 0;
     }
     QList<QString> list;
-    tInter->getRow(&list, toCount[last]);
-    tInter->editRow(list[0], toCount[last], list[1], list[2], QString("Testing"));
+    tInter->editStatus(toCount[last], "Testing");
     checkLib->check(list);
 
     return 0;
@@ -23,7 +23,7 @@ int Checker::checkOne()
 
 void Checker::processFinished(QList<QString> list)
 {
-    tInter->editRow(list[0], toCount[last], list[1], list[2], list[3]);
+    tInter->editStatus(toCount[last], list[3]);
     last++;
     //Progression bar
     QMetaObject::invokeMethod(tInter->getObj(), "checkedAdd", Q_ARG(QVariant, (double)last/toCount.size()));
@@ -32,6 +32,11 @@ void Checker::processFinished(QList<QString> list)
 
 int Checker::start()
 {
+    if (isWorking) {
+        printf("Error: Already started\n");
+        return 1;
+    }
+    isWorking = true;
     populateToCount();
     QMetaObject::invokeMethod(tInter->getObj(), "checkedAdd", Q_ARG(QVariant, 0));
     checkOne();
@@ -54,6 +59,12 @@ int Checker::stop()
 {
     last = 0;
     tInter->writeTblIo();
+    int sz = toCount.size();
+    for (int i = 0; i < sz; ++i) {
+        toCount.removeAt(0);
+    }
+//    QMetaObject::invokeMethod(tInter->getObj(), "checkedAdd", Q_ARG(QVariant, 0));
+    isWorking = false;
     return 0;
 }
 

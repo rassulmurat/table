@@ -15,6 +15,7 @@ public:
     TableInteraction(QObject *obj);
     int appendRow(QString check, int id, QString name, QString ip, QString status);
     int editRow(QString check, int id, QString name, QString ip, QString status);
+    int editStatus(int id, QString status);
     int readTblIo();
     int writeTblIo();
     int getRow(QList<QString> *list, int pos);

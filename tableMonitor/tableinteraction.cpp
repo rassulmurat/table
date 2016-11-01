@@ -49,6 +49,13 @@ int TableInteraction::populate()
     return 0;
 }
 
+int TableInteraction::editStatus(int id, QString str)
+{
+    QList<QString> list;
+    getRow(&list, id);
+    editRow(list[0], id, list[1], list[2], str);
+}
+
 int TableInteraction::readTblIo()
 {
     QFile file(filePath);

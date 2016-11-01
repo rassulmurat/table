@@ -145,19 +145,6 @@ ApplicationWindow {
         id: tableModel
     }
 
-    Button {
-        id: pouse
-        width: 134
-        text: qsTr("Pouse")
-        anchors.top: mouseArea.bottom
-        anchors.topMargin: 5
-        anchors.right: stop.left
-        anchors.rightMargin: 10
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 5
-        onClicked: pouseSign();
-    }
-
     Rectangle {
         id: counterRect
         color: "#00000000"
@@ -166,7 +153,7 @@ ApplicationWindow {
         anchors.topMargin: 5
         anchors.left: parent.left
         anchors.leftMargin: 5
-        anchors.right: pouse.left
+        anchors.right: stop.left
         anchors.rightMargin: 10
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5

@@ -20,6 +20,7 @@ private:
     //List of ID's to check.
     QList<int> toCount;
     CheckLib *checkLib;
+    bool isWorking;
 
 public slots:
     int checkOne();

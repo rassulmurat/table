@@ -5,6 +5,9 @@ TableInteraction::TableInteraction(QObject *obj): QObject()
     object = obj;
     readTblIo();
     populate();
+    QObject::connect(obj, SIGNAL(appendSign(QString, QString)), this, SLOT(appendSlot(QString, QString)));
+    QObject::connect(obj, SIGNAL(editSign(QString, QString, QString)), this, SLOT(editSlot(QString, QString, QString)));
+    QObject::connect(obj, SIGNAL(removeSign(QString)), this, SLOT(removeRow(QString)));
 }
 
 int TableInteraction::appendRow(QString check, int id, QString name, QString ip, QString status)
@@ -54,6 +57,7 @@ int TableInteraction::editStatus(int id, QString str)
     QList<QString> list;
     getRow(&list, id);
     editRow(list[0], id, list[1], list[2], str);
+    return 0;
 }
 
 int TableInteraction::readTblIo()

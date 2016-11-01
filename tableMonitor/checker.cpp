@@ -6,6 +6,10 @@ Checker::Checker(TableInteraction *inter):QObject()
     isWorking = false;
     checkLib = new CheckLib();
     QObject::connect(checkLib, SIGNAL(processFinished(QList<QString>, int)), this, SLOT(processFinished(QList<QString>, int)));
+    QObject::connect(tInter->getObj(), SIGNAL(startSign()), this, SLOT(start()));
+    QObject::connect(tInter->getObj(), SIGNAL(stopSign()), this, SLOT(stop()));
+    QObject::connect(tInter->getObj(), SIGNAL(pouseSign()), this, SLOT(pouse()));
+    QObject::connect(tInter->getObj(), SIGNAL(checkSign(QString, QString)), this, SLOT(checkStatus(QString,QString)));
 }
 
 int Checker::checkOne()

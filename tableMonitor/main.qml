@@ -6,7 +6,7 @@ ApplicationWindow {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Table")
+    title: qsTr("Iperf Tester")
     id: root
 
     signal editSign(string id, string name, string ipaddr)

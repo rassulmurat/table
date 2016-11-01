@@ -22,6 +22,8 @@ public:
     int setRow(QList<QString> list, int pos);
     QObject *getObj();
     int size();
+    QList<QList<QString>> *getTable();
+    void setTable(QList<QList<QString>> list);
 
 private:
     QObject *object;

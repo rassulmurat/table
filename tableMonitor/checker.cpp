@@ -65,11 +65,11 @@ int Checker::populateToCount()
 int Checker::finish()
 {
     last = 0;
-    tInter->writeTblIo();
     while (toCount.size() > 0) {
         toCount.removeAt(0);
     }
     QMetaObject::invokeMethod(tInter->getObj(), "finished");
+    isWorking = false;
     return 0;
 }
 
@@ -77,7 +77,6 @@ int Checker::stop()
 {
     tInter->editStatus(toCount[last], QString("Stoped"));
     last = 0;
-    tInter->writeTblIo();
     checkLib->killProcess();
     while (toCount.size() > 0) {
         toCount.removeAt(0);
@@ -97,7 +96,6 @@ int Checker::checkStatus(QString id,QString str)
     tInter->getRow(&list, id.toInt());
     list[0] = str;
     tInter->setRow(list, id.toInt());
-    tInter->writeTblIo();
     if (QString::compare(str, QString("true"), Qt::CaseInsensitive) == 0) {
         int res = toCount.indexOf(id.toInt(), 0);
         if (res != -1)

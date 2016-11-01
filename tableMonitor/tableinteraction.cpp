@@ -3,8 +3,6 @@
 TableInteraction::TableInteraction(QObject *obj): QObject()
 {
     object = obj;
-    readTblIo();
-    populate();
     QObject::connect(obj, SIGNAL(appendSign(QString, QString)), this, SLOT(appendSlot(QString, QString)));
     QObject::connect(obj, SIGNAL(editSign(QString, QString, QString)), this, SLOT(editSlot(QString, QString, QString)));
     QObject::connect(obj, SIGNAL(removeSign(QString)), this, SLOT(removeRow(QString)));
@@ -37,7 +35,6 @@ int TableInteraction::editRow(QString check, int id, QString name, QString ip, Q
  void TableInteraction::removeRow(QString id)
  {
     tableList.removeAt(id.toInt());
-    writeTblIo();
  }
 
 /*
@@ -60,32 +57,6 @@ int TableInteraction::editStatus(int id, QString str)
     return 0;
 }
 
-int TableInteraction::readTblIo()
-{
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly)) {
-        printf("Could not open file\n");
-        return 1;
-    }
-    QDataStream stream(&file);
-    stream>>tableList;
-    file.close();
-    return 0;
-}
-
-int TableInteraction::writeTblIo()
-{
-    QFile file(filePath);
-    if (!file.open(QIODevice::WriteOnly)) {
-        printf("Could not open file\n");
-        return 1;
-    }
-    QDataStream stream(&file);
-    stream<<tableList;
-    file.close();
-    return 0;
-}
-
 void TableInteraction::appendSlot(QString name, QString ipaddr)
 {
     int size = tableList.size();
@@ -95,7 +66,6 @@ void TableInteraction::appendSlot(QString name, QString ipaddr)
     list.append(ipaddr);
     list.append("New");
     tableList.append(list);
-    writeTblIo();
     appendRow("true", size + 1, name, ipaddr, "New");
 }
 
@@ -131,4 +101,16 @@ QObject *TableInteraction::getObj()
 {
     return object;
 }
+
+QList<QList<QString>> *TableInteraction::getTable()
+{
+    return &tableList;
+}
+
+void TableInteraction::setTable(QList<QList<QString>> list)
+{
+    tableList = list;
+    populate();
+}
+
 

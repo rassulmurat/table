@@ -6,6 +6,7 @@
 #include <QDebug>
 #include "tableinteraction.h"
 #include "checker.h"
+#include "iotable.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,5 +18,6 @@ int main(int argc, char *argv[])
     QObject *root = engine.rootObjects().value(0);
     TableInteraction *inter = new TableInteraction(root);
     Checker *checker = new Checker(inter);
+    IOTable *io = new IOTable(inter);
     return app.exec();
 }

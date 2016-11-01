@@ -1,6 +1,8 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Window 2.0
+import QtQuick.Dialogs 1.2
+
 
 ApplicationWindow {
     visible: true
@@ -8,6 +10,55 @@ ApplicationWindow {
     height: 480
     title: qsTr("Iperf Tester")
     id: root
+
+    signal saveSign()
+    signal saveAsSign(url path)
+    signal loadSign()
+    signal loadAsSign(url path)
+    menuBar: MenuBar{
+        Menu{
+            title: "File";
+            MenuItem{
+                text: "Save"
+                onTriggered: saveSign()
+            }
+            MenuItem{
+                text: "Save As"
+                onTriggered: saveFileDialog.visible = true
+            }
+            MenuItem{
+                text: "Load"
+                onTriggered: loadSign()
+            }
+            MenuItem{
+                text: "Load From"
+                onTriggered: loadFileDialog.visible = true
+            }
+        }
+    }
+
+    FileDialog{
+        id: saveFileDialog
+        visible: false
+        title: "Save Table As"
+        nameFilters: "*.csv"
+        selectExisting: false
+        folder: shortcuts.home
+        onAccepted: {
+                saveAsSign(saveFileDialog.fileUrl)
+            }
+    }
+    FileDialog{
+        id: loadFileDialog
+        visible: false
+        title: "Save Table As"
+        nameFilters: "*.csv"
+        selectExisting: true
+        folder: shortcuts.home
+        onAccepted: {
+                loadAsSign(loadFileDialog.fileUrl)
+            }
+    }
 
     signal editSign(string id, string name, string ipaddr)
     signal appendSign(string name, string ipaddr)
@@ -32,6 +83,16 @@ ApplicationWindow {
         anchors.rightMargin: 10
         onClicked: stopClicked()
         enabled: false
+
+        Image {
+            id: image2
+            anchors.topMargin: 5
+            anchors.bottomMargin: 5
+            anchors.rightMargin: 5
+            anchors.leftMargin: 100
+            anchors.fill: parent
+            source: "stop_sign.png"
+        }
     }
 
     function stopClicked() {
@@ -53,6 +114,17 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.rightMargin: 5
         onClicked: startClicked()
+
+        Image {
+            id: image1
+            anchors.rightMargin: 5
+            anchors.topMargin: 5
+            anchors.bottomMargin: 5
+            z: 1
+            anchors.leftMargin: 100
+            anchors.fill: parent
+            source: "go_arrow_next_up_green_forward.png"
+        }
     }
 
     function startClicked() {

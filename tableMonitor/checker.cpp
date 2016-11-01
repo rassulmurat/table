@@ -32,6 +32,10 @@ void Checker::processFinished(QList<QString> list, int exitCode)
         last++;
         //Progression bar
         QMetaObject::invokeMethod(tInter->getObj(), "checkedAdd", Q_ARG(QVariant, (double)last/toCount.size()));
+        int tmp = toCount.size();
+        QString total;
+        total.sprintf("%d/%d", last, tmp);
+        QMetaObject::invokeMethod(tInter->getObj(), "totalChange", Q_ARG(QVariant, total));
         checkOne();
     }
 }
@@ -45,6 +49,10 @@ int Checker::start()
     isWorking = true;
     populateToCount();
     QMetaObject::invokeMethod(tInter->getObj(), "checkedAdd", Q_ARG(QVariant, 0));
+    int tmp = toCount.size();
+    QString total;
+    total.sprintf("%d/%d", last, tmp);
+    QMetaObject::invokeMethod(tInter->getObj(), "totalChange", Q_ARG(QVariant, total));
     checkOne();
     return 0;
 }

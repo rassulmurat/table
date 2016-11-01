@@ -64,7 +64,11 @@ void IOTable::save()
 
 void IOTable::saveAs(QUrl path)
 {
-    setPath(path.path(QUrl::FullyDecoded));
+    QString str = path.path(QUrl::FullyDecoded);
+    if (!str.contains(".csv")) {
+        str.append(".csv");
+    }
+    setPath(str);
     save();
 }
 
@@ -77,6 +81,10 @@ void IOTable::load()
 
 void IOTable::loadAs(QUrl path)
 {
-    setPath(path.path(QUrl::FullyDecoded));
+    QString str = path.path(QUrl::FullyDecoded);
+    if (!str.contains(".csv")) {
+        str.append(".csv");
+    }
+    setPath(str);
     load();
 }

@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>go_arrow_next_up_green_forward.png</file>
-        <file>stop_sign.png</file>
+        <file>stop_but.png</file>
+        <file>play-button-th.png</file>
     </qresource>
 </RCC>

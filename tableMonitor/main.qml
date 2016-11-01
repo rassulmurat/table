@@ -45,8 +45,8 @@ ApplicationWindow {
         selectExisting: false
         folder: shortcuts.home
         onAccepted: {
-                saveAsSign(saveFileDialog.fileUrl)
-            }
+            saveAsSign(saveFileDialog.fileUrl)
+        }
     }
     FileDialog{
         id: loadFileDialog
@@ -56,8 +56,8 @@ ApplicationWindow {
         selectExisting: true
         folder: shortcuts.home
         onAccepted: {
-                loadAsSign(loadFileDialog.fileUrl)
-            }
+            loadAsSign(loadFileDialog.fileUrl)
+        }
     }
 
     signal editSign(string id, string name, string ipaddr)
@@ -85,13 +85,13 @@ ApplicationWindow {
         enabled: false
 
         Image {
-            id: image2
+            id: stopImg
             anchors.topMargin: 5
             anchors.bottomMargin: 5
             anchors.rightMargin: 5
             anchors.leftMargin: 100
             anchors.fill: parent
-            source: "stop_sign.png"
+            source: "stop_but.png"
         }
     }
 
@@ -116,14 +116,14 @@ ApplicationWindow {
         onClicked: startClicked()
 
         Image {
-            id: image1
+            id: startImg
             anchors.rightMargin: 5
             anchors.topMargin: 5
             anchors.bottomMargin: 5
             z: 1
             anchors.leftMargin: 100
             anchors.fill: parent
-            source: "go_arrow_next_up_green_forward.png"
+            source: "play-button-th.png"
         }
     }
 
@@ -199,7 +199,7 @@ ApplicationWindow {
     }
 
     function checkedAdd(val) {
-       progressBar.value = val
+        progressBar.value = val
         if (1 == progressBar.value) {
             stop.enabled = false
             start.enabled = true
@@ -251,8 +251,14 @@ ApplicationWindow {
 
             Text {
                 id: progressBarText
+                width: 20
                 color: "#2a2674"
                 text: qsTr("Not Running")
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.rightMargin: 0
                 font.italic: true
                 opacity: 0.6
                 textFormat: Text.AutoText
@@ -260,8 +266,27 @@ ApplicationWindow {
                 font.family: "Courier"
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                anchors.fill: parent
-                font.pixelSize: 34
+                font.pixelSize: 24
+
+                Text {
+                    id: progressTotal
+                    x: 396
+                    width: 50
+                    color: "#2a2674"
+                    text: qsTr("")
+                    anchors.right: parent.right
+                    anchors.rightMargin: 5
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 0
+                    anchors.top: parent.top
+                    anchors.topMargin: 0
+                    opacity: 0.6
+                    font.italic: true
+                    font.family: "Courier"
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 24
+                }
             }
         }
     }
@@ -270,30 +295,34 @@ ApplicationWindow {
         progressBarText.text = "Finished";
     }
 
+    function totalChange(val) {
+        progressTotal.text = val
+    }
+
     /*
       * Drop menu(Right click)
       */
     Menu {
         id: dropMenu
         MenuItem{
-               text: "Add"
-               onTriggered: addRow()
+            text: "Add"
+            onTriggered: addRow()
         }
         MenuItem{
-               text: "Edit"
-               onTriggered: editRow()
+            text: "Edit"
+            onTriggered: editRow()
         }
         MenuItem{
-               text: "Delete"
-               onTriggered: removeRow()
+            text: "Delete"
+            onTriggered: removeRow()
         }
     }
-//Function for right click menu
+    //Function for right click menu
     function addRow() {
         creating = true
         editWindow.visible = true
     }
-//Function for tight click menu
+    //Function for tight click menu
     function editRow() {
         creating = false
         editWindow.visible = true

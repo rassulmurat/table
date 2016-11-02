@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>stop_but.png</file>
+        <file>play-button-th.png</file>
+    </qresource>
+</RCC>

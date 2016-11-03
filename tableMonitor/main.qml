@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
     visible: true
-    width: 640
+    width: 740
     height: 480
     title: qsTr("Iperf Tester")
     id: root
@@ -175,20 +175,27 @@ ApplicationWindow {
             TableViewColumn {
                 title: "ID"
                 role: "idcol"
-                width: 120
+                width: tableView.width/5
             }
             TableViewColumn {
                 title: "Name"
                 role: "name"
-                width: 168
+                width: tableView.width/5
             }
             TableViewColumn {
                 title: "IP Address"
                 role: "ip"
+                width: tableView.width/5
             }
             TableViewColumn {
                 title: "Status"
                 role: "status"
+                width: tableView.width/5
+            }
+            TableViewColumn {
+                title: "Latency"
+                role: "lat"
+                width: tableView.width/5
             }
         }
     }
@@ -213,12 +220,20 @@ ApplicationWindow {
         } else {
             tmp = false
         }
-        tableModel.append({check: {checked: tmp}, idcol: val[1], name: val[2], ip: val[3], status: val[4]})
+        tableModel.append({check: {checked: tmp}, idcol: val[1], name: val[2], ip: val[3], status: val[4], lat: val[5]})
     }
 
     function modifyRow(val) {
-        tableModel.set(val[1], {check: {checked: val[0]}, name: val[2], ip: val[3], status: val[4]})
+        tableModel.set(val[1], {check: {checked: val[0]}, name: val[2], ip: val[3], status: val[4], lat: val[5]})
         return
+    }
+
+    function setResponse(val) {
+        tableModel.set(val[0], {status: val[1], lat: val[2]})
+    }
+
+    function setRole(val) {
+        tableModel.set(id, {rol: value})
     }
 
     function removeRow() {
@@ -320,11 +335,15 @@ ApplicationWindow {
     //Function for right click menu
     function addRow() {
         creating = true
+        nametf.text = ""
+        ipaddrtf.text = ""
         editWindow.visible = true
     }
     //Function for tight click menu
     function editRow() {
         creating = false
+        nametf.text = tableModel.get(tableView.currentRow).name
+        ipaddrtf.text = tableModel.get(tableView.currentRow).ip
         editWindow.visible = true
     }
 
@@ -411,14 +430,10 @@ ApplicationWindow {
             onClicked: {
                 if (creating) {
                     appendSign(nametf.text, ipaddrtf.text)
-                    nametf.text = ""
-                    ipaddrtf.text = ""
                     editWindow.visible = false
                 } else {
                     var tmp = tableModel.get(tableView.currentRow).idcol
                     editSign(tmp, nametf.text, ipaddrtf.text)
-                    nametf.text = ""
-                    ipaddrtf.text = ""
                     editWindow.visible = false
                 }
             }

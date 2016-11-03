@@ -8,25 +8,31 @@ TableInteraction::TableInteraction(QObject *obj): QObject()
     QObject::connect(obj, SIGNAL(removeSign(QString)), this, SLOT(removeRow(QString)));
 }
 
-int TableInteraction::appendRow(QString check, int id, QString name, QString ip, QString status)
+int TableInteraction::appendRow(int id, QList<QString> list)
 {
-    QVariantList list;
+    QVariantList listVar;
     QString idstr = QString::number(id);
-    list<<check<<idstr<<name<<ip<<status;
-    QMetaObject::invokeMethod(object, "appendRow", Q_ARG(QVariant, QVariant::fromValue(list)));
+    for (int i = 0; i < list.size(); ++i) {
+        if (i == 1) {
+            listVar.append(id);
+        }
+        listVar.append(list[i]);
+    }
+    QMetaObject::invokeMethod(object, "appendRow", Q_ARG(QVariant, QVariant::fromValue(listVar)));
     return 0;
 }
 
-int TableInteraction::editRow(QString check, int id, QString name, QString ip, QString status)
+int TableInteraction::editRow(QString check, int id, QString name, QString ip, QString status, QString latency)
 {
     QVariantList list;
     QString idstr = QString::number(id);
-    list<<check<<idstr<<name<<ip<<status;
+    list<<check<<idstr<<name<<ip<<status<<latency;
     QList<QString> tmp;
     tmp.append(check);
     tmp.append(name);
     tmp.append(ip);
     tmp.append(status);
+    tmp.append(latency);
     tableList[id] = tmp;
     QMetaObject::invokeMethod(object, "modifyRow", Q_ARG(QVariant, QVariant::fromValue(list)));
     return 0;
@@ -37,6 +43,37 @@ int TableInteraction::editRow(QString check, int id, QString name, QString ip, Q
     tableList.removeAt(id.toInt());
  }
 
+ int TableInteraction::setResponse(int id, QList<QString> listStr)
+ {
+    QVariantList varList;
+    varList<<id<<listStr[0]<<listStr[1];
+
+    tableList[id].replace(3, listStr[0]);
+    tableList[id].replace(4, listStr[1]);
+    QMetaObject::invokeMethod(object, "setResponse", Q_ARG(QVariant, QVariant::fromValue(varList)));
+    return 0;
+ }
+
+ int TableInteraction::setRole(int id, int role, QString value)
+ {
+    QVariantList varList;
+
+    for (int i = 0; i < rolesSize; ++i) {
+        if (role != i) {
+            if (i == 1) {
+                varList.append(id);
+            }
+            varList.append(tableList[id].value(i));
+        } else {
+            tableList[id].replace(role, value);
+            varList.append(value);
+        }
+    }
+
+    QMetaObject::invokeMethod(object, "modifyRow", Q_ARG(QVariant, QVariant::fromValue(varList)));
+    return 0;
+ }
+
 /*
  *Populates table from tableList
 */
@@ -44,16 +81,16 @@ int TableInteraction::populate()
 {
     for (int i = 0; i < tableList.size(); ++i) {
         QList<QString> list = tableList[i];
-        appendRow(list[0], i+1, list[1], list[2], list[3]);
+        appendRow(i+1, list);
     }
     return 0;
 }
 
-int TableInteraction::editStatus(int id, QString str)
+int TableInteraction::editStatus(int id, QString status, QString latency)
 {
     QList<QString> list;
     getRow(&list, id);
-    editRow(list[0], id, list[1], list[2], str);
+    editRow(list[0], id, list[1], list[2], status, latency);
     return 0;
 }
 
@@ -65,15 +102,16 @@ void TableInteraction::appendSlot(QString name, QString ipaddr)
     list.append(name);
     list.append(ipaddr);
     list.append("New");
+    list.append(("New"));
     tableList.append(list);
-    appendRow("true", size + 1, name, ipaddr, "New");
+    appendRow(size + 1, list);
 }
 
 void TableInteraction::editSlot(QString id, QString name, QString ipaddr)
 {
     int realid = id.toInt() - 1;
     QList<QString> list = tableList[realid];
-    editRow(list[0], realid, name, ipaddr, list[3]);
+    editRow(list[0], realid, name, ipaddr, list[3], list[4]);
 }
 
 int TableInteraction::getRow(QList<QString> *list, int pos)

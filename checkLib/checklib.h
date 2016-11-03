@@ -21,15 +21,20 @@ public:
 
 private:
     QString exec(QString);
-    int findValues(QString str, QString *ret);
+    int findValuesPing(QString str, QString *ret);
+    int findValuesSpeed(QString str, QString *ret);
     QProcess *proc;
-    QList<QString> tableRow;
+    int freq = 10;
+    QString cmd;
+
 
 public slots:
     void finished(int exitCode, QProcess::ExitStatus exitStatus);
+    void finishedTestPing(int exitCode, QProcess::ExitStatus exitStatus);
 
 signals:
-    void processFinished(QList<QString> list, int exitCode);
+    void processFinished(QString, int exitCode);
+    void pingTested(QString ping, int exitCode);
 
 };
 

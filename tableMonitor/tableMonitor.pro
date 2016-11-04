@@ -5,8 +5,8 @@ QT += qml quick widgets
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    tableinteraction.cpp \
-    checker.cpp \
+    tablemodel.cpp \
+    test.cpp \
     iotable.cpp \
     export.cpp
 
@@ -21,8 +21,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    checker.h\
-    tableinteraction.h \
+    test.h\
+    tablemodel.h \
     iotable.h \
     export.h
 

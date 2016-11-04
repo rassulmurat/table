@@ -1,6 +1,6 @@
-#include "tableinteraction.h"
+#include "tablemodel.h"
 
-TableInteraction::TableInteraction(QObject *obj): QObject()
+TableModel::TableModel(QObject *obj): QObject()
 {
     object = obj;
     QObject::connect(obj, SIGNAL(appendSign(QString, QString)), this, SLOT(appendSlot(QString, QString)));
@@ -8,7 +8,7 @@ TableInteraction::TableInteraction(QObject *obj): QObject()
     QObject::connect(obj, SIGNAL(removeSign(QString)), this, SLOT(removeRow(QString)));
 }
 
-int TableInteraction::appendRow(int id, QList<QString> list)
+int TableModel::appendRow(int id, QList<QString> list)
 {
     QVariantList listVar;
     QString idstr = QString::number(id);
@@ -22,7 +22,7 @@ int TableInteraction::appendRow(int id, QList<QString> list)
     return 0;
 }
 
-int TableInteraction::editRow(QString check, int id, QString name, QString ip, QString status, QString latency)
+int TableModel::editRow(QString check, int id, QString name, QString ip, QString status, QString latency)
 {
     QVariantList list;
     QString idstr = QString::number(id);
@@ -38,23 +38,12 @@ int TableInteraction::editRow(QString check, int id, QString name, QString ip, Q
     return 0;
 }
 
- void TableInteraction::removeRow(QString id)
+ void TableModel::removeRow(QString id)
  {
     tableList.removeAt(id.toInt());
  }
 
- int TableInteraction::setResponse(int id, QList<QString> listStr)
- {
-    QVariantList varList;
-    varList<<id<<listStr[0]<<listStr[1];
-
-    tableList[id].replace(3, listStr[0]);
-    tableList[id].replace(4, listStr[1]);
-    QMetaObject::invokeMethod(object, "setResponse", Q_ARG(QVariant, QVariant::fromValue(varList)));
-    return 0;
- }
-
- int TableInteraction::setRole(int id, int role, QString value)
+ int TableModel::setRole(int id, int role, QString value)
  {
     QVariantList varList;
 
@@ -77,7 +66,7 @@ int TableInteraction::editRow(QString check, int id, QString name, QString ip, Q
 /*
  *Populates table from tableList
 */
-int TableInteraction::populate()
+int TableModel::populate()
 {
     for (int i = 0; i < tableList.size(); ++i) {
         QList<QString> list = tableList[i];
@@ -86,7 +75,7 @@ int TableInteraction::populate()
     return 0;
 }
 
-int TableInteraction::editStatus(int id, QString status, QString latency)
+int TableModel::editStatus(int id, QString status, QString latency)
 {
     QList<QString> list;
     getRow(&list, id);
@@ -94,7 +83,7 @@ int TableInteraction::editStatus(int id, QString status, QString latency)
     return 0;
 }
 
-void TableInteraction::appendSlot(QString name, QString ipaddr)
+void TableModel::appendSlot(QString name, QString ipaddr)
 {
     int size = tableList.size();
     QList<QString> list;
@@ -107,14 +96,14 @@ void TableInteraction::appendSlot(QString name, QString ipaddr)
     appendRow(size + 1, list);
 }
 
-void TableInteraction::editSlot(QString id, QString name, QString ipaddr)
+void TableModel::editSlot(QString id, QString name, QString ipaddr)
 {
     int realid = id.toInt() - 1;
     QList<QString> list = tableList[realid];
     editRow(list[0], realid, name, ipaddr, list[3], list[4]);
 }
 
-int TableInteraction::getRow(QList<QString> *list, int pos)
+int TableModel::getRow(QList<QString> *list, int pos)
 {
     if (pos > tableList.size() - 1)
         return 1;
@@ -122,7 +111,7 @@ int TableInteraction::getRow(QList<QString> *list, int pos)
     return 0;
 }
 
-int TableInteraction::setRow(QList<QString> list, int pos)
+int TableModel::setRow(QList<QString> list, int pos)
 {
     if (pos > tableList.size() - 1)
         return 1;
@@ -130,28 +119,28 @@ int TableInteraction::setRow(QList<QString> list, int pos)
     return 0;
 }
 
-int TableInteraction::size()
+int TableModel::size()
 {
     return tableList.size();
 }
 
-QObject *TableInteraction::getObj()
+QObject *TableModel::getObj()
 {
     return object;
 }
 
-QList<QList<QString>> *TableInteraction::getTable()
+QList<QList<QString>> *TableModel::getTable()
 {
     return &tableList;
 }
 
-void TableInteraction::setTable(QList<QList<QString>> list)
+void TableModel::setTable(QList<QList<QString>> list)
 {
     tableList = list;
     populate();
 }
 
-QString TableInteraction::getColumnName(int role)
+QString TableModel::getColumnName(int role)
 {
     switch (role) {
     case CHECK:     return QString("Check");

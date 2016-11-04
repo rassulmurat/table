@@ -4,8 +4,8 @@
 #include <QTableView>
 #include <QQmlComponent>
 #include <QDebug>
-#include "tableinteraction.h"
-#include "checker.h"
+#include "tablemodel.h"
+#include "test.h"
 #include "iotable.h"
 #include "export.h"
 
@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     QObject *root = engine.rootObjects().value(0);
-    TableInteraction *inter = new TableInteraction(root);
-    Checker *checker = new Checker(inter);
+    TableModel *inter = new TableModel(root);
+    TestNetwork *checker = new TestNetwork(inter);
     IOTable *io = new IOTable(inter);
 
     Export *exprt = new Export;

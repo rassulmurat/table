@@ -11,12 +11,16 @@
 #include <QList>
 #include <QUrl>
 #include <QDateTime>
-#include "tableinteraction.h"
+#include "tablemodel.h"
 
 class Export: public QObject
 {
     Q_OBJECT
 public:
+    /*
+     * This file performs as an export to odt file to open in Open Ofice
+     * This *.odt file can also be opened in Microsoft Word.
+     */
     Export();
     Export(QString *path);
     void setFilePath(QString *path);
@@ -33,7 +37,7 @@ public:
      * Set Class for tableModel interaction.
      * Automatically gets tableColumns and table data.
      */
-    void setTableModel(TableInteraction *table);
+    void setTableModel(TableModel *table);
 
     /*
      * Function to clean table data stored in class.
@@ -64,7 +68,7 @@ private:
     QList<QList<QString>> tableData;
     QString filePath;
     QObject *object;
-    TableInteraction *tableModel;
+    TableModel *tableModel;
     QList<int> exludedColumns;
 
 public slots:

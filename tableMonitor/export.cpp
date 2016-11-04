@@ -15,7 +15,7 @@ void Export::init()
 {
     doc = new QTextDocument();
     cursor = new QTextCursor(doc);
-    exludedColumns.append(TableInteraction::CHECK);
+    exludedColumns.append(TableModel::CHECK);
 }
 
 void Export::setFilePath(QString *path)
@@ -34,7 +34,7 @@ void Export::setSignals(QObject *obj)
     QObject::connect(object, SIGNAL(exportToOdt(QUrl)), this, SLOT(write(QUrl)));
 }
 
-void Export::setTableModel(TableInteraction *table)
+void Export::setTableModel(TableModel *table)
 {
     tableModel = table;
 }
@@ -114,7 +114,7 @@ void Export::write(QUrl path)
     }
     setFilePath(&str);
     QList<QString> headers;
-    for (int col = 0; col < TableInteraction::ROLES_SIZE; ++col) {
+    for (int col = 0; col < TableModel::ROLES_SIZE; ++col) {
        if(!exludedColumns.contains(col)) {
            headers.append(tableModel->getColumnName(col));
        }

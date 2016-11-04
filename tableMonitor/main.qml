@@ -208,7 +208,7 @@ ApplicationWindow {
                 width: tableView.width/5
             }
             TableViewColumn {
-                title: "Status"
+                title: "Speed"
                 role: "status"
                 width: tableView.width/5
             }

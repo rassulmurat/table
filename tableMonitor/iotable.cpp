@@ -1,6 +1,6 @@
 #include "iotable.h"
 
-IOTable::IOTable(TableInteraction *obj):QObject()
+IOTable::IOTable(TableModel *obj):QObject()
 {
     table = obj;
     QObject::connect(table->getObj(), SIGNAL(saveSign()), this, SLOT(save()));

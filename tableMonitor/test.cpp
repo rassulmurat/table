@@ -1,6 +1,6 @@
-#include "checker.h"
+#include "test.h"
 
-Checker::Checker(TableInteraction *inter):QObject()
+TestNetwork::TestNetwork(TableModel *inter):QObject()
 {
     tInter = inter;
     isWorking = false;
@@ -13,7 +13,7 @@ Checker::Checker(TableInteraction *inter):QObject()
     QObject::connect(tInter->getObj(), SIGNAL(checkSign(QString, QString)), this, SLOT(checkStatus(QString,QString)));
 }
 
-int Checker::checkOne()
+int TestNetwork::testNext()
 {
     if (last == toCount.size()) {
         finish();
@@ -22,15 +22,15 @@ int Checker::checkOne()
     QList<QString> list;
     tInter->getRow(&list, toCount[last]);
     QList<QString> resp;
-    tInter->setRole(toCount[last], TableInteraction::LATENCY, "Testing");
+    tInter->setRole(toCount[last], TableModel::LATENCY, "Testing");
     checkLib->check(list);
     return 0;
 }
 
-void Checker::processFinished(QString str, int exitCode)
+void TestNetwork::processFinished(QString str, int exitCode)
 {
     if (exitCode == 0 || exitCode == 1) {
-        tInter->setRole(toCount[last], TableInteraction::SPEED, str);
+        tInter->setRole(toCount[last], TableModel::SPEED, str);
         last++;
         //Progression bar
         QMetaObject::invokeMethod(tInter->getObj(), "checkedAdd", Q_ARG(QVariant, (double)last/toCount.size()));
@@ -38,19 +38,19 @@ void Checker::processFinished(QString str, int exitCode)
         QString total;
         total.sprintf("%d/%d", last, tmp);
         QMetaObject::invokeMethod(tInter->getObj(), "totalChange", Q_ARG(QVariant, total));
-        checkOne();
+        testNext();
     }
 }
 
-void Checker::pingTested(QString ping, int exitCode)
+void TestNetwork::pingTested(QString ping, int exitCode)
 {
     if (exitCode == 0 || exitCode == 1) {
-        tInter->setRole(toCount[last], TableInteraction::LATENCY, ping);
+        tInter->setRole(toCount[last], TableModel::LATENCY, ping);
         tInter->setRole(toCount[last], 3, "Testing");
     }
 }
 
-int Checker::start()
+int TestNetwork::start()
 {
     if (isWorking) {
         printf("Error: Already started\n");
@@ -62,11 +62,11 @@ int Checker::start()
     QString total;
     total.sprintf("%d/%d", last, toCount.size());
     QMetaObject::invokeMethod(tInter->getObj(), "totalChange", Q_ARG(QVariant, total));
-    checkOne();
+    testNext();
     return 0;
 }
 
-int Checker::populateToCount()
+int TestNetwork::populateToCount()
 {
     for (int i = 0; i < tInter->size(); ++i) {
         QList<QString> list;
@@ -79,7 +79,7 @@ int Checker::populateToCount()
     return 0;
 }
 
-int Checker::finish()
+int TestNetwork::finish()
 {
     last = 0;
     while (toCount.size() > 0) {
@@ -90,7 +90,7 @@ int Checker::finish()
     return 0;
 }
 
-int Checker::stop()
+int TestNetwork::stop()
 {
     tInter->editStatus(toCount[last], QString("Stoped"), QString("Stoped"));
     last = 0;
@@ -102,12 +102,12 @@ int Checker::stop()
     return 0;
 }
 
-int Checker::pouse()
+int TestNetwork::pouse()
 {
     return 0;
 }
 
-int Checker::checkStatus(QString id,QString str)
+int TestNetwork::checkStatus(QString id,QString str)
 {
     QList<QString> list;
     tInter->getRow(&list, id.toInt());

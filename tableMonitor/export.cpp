@@ -8,7 +8,7 @@ Export::Export(): QObject(0)
 Export::Export(QString *path): QObject(0)
 {
     setFilePath(path);
-    init();
+//    init();
 }
 
 void Export::init()
@@ -94,10 +94,20 @@ void Export::write()
     structFile();
     QTextDocumentWriter writer(filePath);
     writer.write(doc);
+    doc->clear();
+    cleanTableData();
+}
+
+void Export::cleanTableData()
+{
+    while (tableData.size()>0) {
+        tableData.removeAt(0);
+    }
 }
 
 void Export::write(QUrl path)
 {
+    init();
     QString str = path.toLocalFile();
     if (!str.contains(".odt")) {
         str.append(".odt");

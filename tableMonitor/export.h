@@ -24,6 +24,7 @@ public:
     void setTable(QList<QString> headers, QList<QList<QString>> data);
     void setSignals(QObject *obj);
     void setTableModel(TableInteraction *table);
+    void cleanTableData();
 
 private:
     void init();

@@ -22,7 +22,7 @@ int Checker::checkOne()
     QList<QString> list;
     tInter->getRow(&list, toCount[last]);
     QList<QString> resp;
-    tInter->setRole(toCount[last], 4, "Testing");
+    tInter->setRole(toCount[last], TableInteraction::LATENCY, "Testing");
     checkLib->check(list);
     return 0;
 }
@@ -30,7 +30,7 @@ int Checker::checkOne()
 void Checker::processFinished(QString str, int exitCode)
 {
     if (exitCode == 0 || exitCode == 1) {
-        tInter->setRole(toCount[last], 3, str);
+        tInter->setRole(toCount[last], TableInteraction::SPEED, str);
         last++;
         //Progression bar
         QMetaObject::invokeMethod(tInter->getObj(), "checkedAdd", Q_ARG(QVariant, (double)last/toCount.size()));
@@ -45,7 +45,7 @@ void Checker::processFinished(QString str, int exitCode)
 void Checker::pingTested(QString ping, int exitCode)
 {
     if (exitCode == 0 || exitCode == 1) {
-        tInter->setRole(toCount[last], 4, ping);
+        tInter->setRole(toCount[last], TableInteraction::LATENCY, ping);
         tInter->setRole(toCount[last], 3, "Testing");
     }
 }

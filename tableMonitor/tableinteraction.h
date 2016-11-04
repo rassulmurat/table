@@ -16,14 +16,24 @@ public:
     int appendRow(int id, QList<QString> list);
     int editRow(QString check, int id, QString name, QString ip, QString status, QString latency);
     int editStatus(int id, QString status, QString latency);
-    int getRow(QList<QString> *list, int pos);
-    int setRow(QList<QString> list, int pos);
-    QObject *getObj();
-    int size();
-    QList<QList<QString>> *getTable();
     void setTable(QList<QList<QString>> list);
     int setResponse(int id, QList<QString> list);
     int setRole(int id, int role, QString value);
+    int setRow(QList<QString> list, int pos);
+    int size();
+    QList<QList<QString>> *getTable();
+    int getRow(QList<QString> *list, int pos);
+    QObject *getObj();
+    QString getColumnName(int);
+
+    enum ROLES{
+        CHECK = 0,
+        NAME = 1,
+        IP = 2,
+        SPEED = 3,
+        LATENCY = 4,
+        ROLES_SIZE = 5,
+    };
 
 private:
     QObject *object;

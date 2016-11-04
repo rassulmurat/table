@@ -15,6 +15,7 @@ ApplicationWindow {
     signal saveAsSign(url path)
     signal loadSign()
     signal loadAsSign(url path)
+    signal exportToOdt(url path)
     menuBar: MenuBar{
         Menu{
             title: "File";
@@ -34,6 +35,25 @@ ApplicationWindow {
                 text: "Load From"
                 onTriggered: loadFileDialog.visible = true
             }
+        }
+        Menu{
+            title: "Export"
+            MenuItem{
+                text: "Text File"
+                onTriggered: exportDialog.visible = true
+            }
+        }
+    }
+
+    FileDialog{
+        id: exportDialog
+        visible: false
+        title: "Save Table As"
+        nameFilters: "Text File(*.odt)"
+        selectExisting: false
+        folder: shortcuts.home
+        onAccepted: {
+            exportToOdt(exportDialog.fileUrl)
         }
     }
 

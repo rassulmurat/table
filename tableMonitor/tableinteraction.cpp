@@ -151,4 +151,16 @@ void TableInteraction::setTable(QList<QList<QString>> list)
     populate();
 }
 
+QString TableInteraction::getColumnName(int role)
+{
+    switch (role) {
+    case CHECK:     return QString("Check");
+    case NAME:      return QString("Name");
+    case IP:        return QString("IP Adress");
+    case SPEED:     return QString("Speed");
+    case LATENCY:   return QString("Latency");
+    default:        return QString("ERROR");
+    }
+}
+
 

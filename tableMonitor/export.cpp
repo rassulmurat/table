@@ -52,9 +52,10 @@ void Export::header()
 {
     QDateTime dateTime = QDateTime::currentDateTime();
     QString str = dateTime.toString("dd:MM:yyyy, HH:mm");
-    QTextCharFormat chFormat;
-    chFormat.setVerticalAlignment(QTextCharFormat::AlignMiddle);
-    cursor->insertText(QString("Протокол Тестирован %1").arg(str), chFormat);
+    QTextBlockFormat chFormat;
+    chFormat.setAlignment(Qt::AlignCenter);
+    cursor->setBlockFormat(chFormat);
+    cursor->insertText(QString("Протокол Тестирован %1").arg(str));
 }
 
 void Export::createTable()

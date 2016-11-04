@@ -7,6 +7,7 @@
 #include <QTextTableFormat>
 #include <QTextDocumentWriter>
 #include <QTextCharFormat>
+#include <QTextBlockFormat>
 #include <QList>
 #include <QUrl>
 #include <QDateTime>

@@ -1,0 +1,12 @@
+#ifndef CHECKLIB_GLOBAL_H
+#define CHECKLIB_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(CHECKLIB_LIBRARY)
+#  define CHECKLIBSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define CHECKLIBSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // CHECKLIB_GLOBAL_H
